@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import de.mag.resttest.app.users.User;
 import de.mag.resttest.app.users.UserService;
+import de.mag.resttest.web.exceptions.ResourceNotFoundException;
 
 @Controller
 @RequestMapping("/users")
@@ -32,7 +33,11 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public User getUser(@PathVariable Long userId) {
-		return userService.findById(userId);
+		User user = userService.findById(userId);
+		if (user == null) {
+			throw new ResourceNotFoundException("No user with id " + userId);
+		}
+		return user;
 	}
 
 	@ResponseStatus(value = HttpStatus.CREATED)
