@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import de.mag.resttest.app.users.NoSuchUserException;
 import de.mag.resttest.app.users.User;
 import de.mag.resttest.app.users.UserService;
 import de.mag.resttest.web.exceptions.ResourceNotFoundException;
@@ -49,8 +50,11 @@ public class UserController {
 
 	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public void updateUser(@RequestBody User user) {
-		userService.update(user);
+	public void updateUser(@PathVariable Long userId, @RequestBody User user) {
+		try {
+			userService.update(userId, user);
+		} catch (NoSuchUserException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
 	}
-
 }
