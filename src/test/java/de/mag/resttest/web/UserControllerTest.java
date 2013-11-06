@@ -18,7 +18,7 @@ import de.mag.resttest.AbstractWebIntegrationTest;
 public class UserControllerTest extends AbstractWebIntegrationTest {
 
 	@Test
-	public void listsAllUsers() throws Exception {
+	public void deliversAllUsers() throws Exception {
 		mvc.perform(
 				get("/users"))
 				.andExpect(status().isOk())
@@ -27,20 +27,7 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 	}
 
 	@Test
-	public void createsUser() throws Exception {
-		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
-			mvc.perform(
-					post("/users")
-							.contentType(MediaType.APPLICATION_JSON)
-							.content(IOUtils.toByteArray(in)))
-					.andExpect(status().isCreated())
-					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(content().encoding("UTF-8"));
-		}
-	}
-
-	@Test
-	public void deliversUserById() throws Exception {
+	public void deliversSingleUserById() throws Exception {
 		mvc.perform(
 				get("/users/1"))
 				.andExpect(status().isOk())
@@ -64,6 +51,19 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
 					.andExpect(status().isOk());
+		}
+	}
+
+	@Test
+	public void createsUser() throws Exception {
+		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
+			mvc.perform(
+					post("/users")
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(IOUtils.toByteArray(in)))
+					.andExpect(status().isCreated())
+					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+					.andExpect(content().encoding("UTF-8"));
 		}
 	}
 }
