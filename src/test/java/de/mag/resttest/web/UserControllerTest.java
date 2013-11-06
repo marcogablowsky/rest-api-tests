@@ -49,6 +49,14 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 	}
 
 	@Test
+	public void respodsWithNotFoundOnInvalidUserId() throws Exception {
+		mvc.perform(
+				get("/users/100"))
+				.andExpect(status().isNotFound())
+				.andReturn().getResponse();
+	}
+
+	@Test
 	public void updatesUser() throws Exception {
 		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
 			mvc.perform(
