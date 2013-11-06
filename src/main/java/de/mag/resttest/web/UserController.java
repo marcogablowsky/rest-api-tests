@@ -25,7 +25,7 @@ public class UserController {
 	private UserService userService;
 
 	@ResponseBody
-	@RequestMapping()
+	@RequestMapping(method = RequestMethod.GET)
 	public Collection<User> getUsers() {
 		return userService.findAll();
 	}

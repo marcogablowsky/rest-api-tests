@@ -48,14 +48,18 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 				.andReturn().getResponse();
 	}
 
+	/*
+	 * This is not the recommended behavior of the article but I think it's more
+	 * comprehensive than a NotFound response.
+	 */
 	@Test
-	public void respondsWithNotFoundOnPutRequestToCollection() throws Exception {
+	public void respondsWithMethodNotAllowedOnPutRequestToCollection() throws Exception {
 		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
 			mvc.perform(
 					put("/users")
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
-					.andExpect(status().isNotFound());
+					.andExpect(status().isMethodNotAllowed());
 		}
 	}
 
