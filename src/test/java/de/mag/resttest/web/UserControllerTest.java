@@ -65,7 +65,7 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 
 	@Test
 	public void updatesSingleExistingUser() throws Exception {
-		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
+		try (InputStream in = new FileInputStream("src/test/resources/updateUser.json")) {
 			mvc.perform(
 					put("/users/1")
 							.contentType(MediaType.APPLICATION_JSON)
@@ -76,13 +76,22 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 
 	@Test
 	public void respondsWithNotFoundOnPutRequestToNonExistingUser() throws Exception {
-		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
+		try (InputStream in = new FileInputStream("src/test/resources/updateUser.json")) {
 			mvc.perform(
 					put("/users/100")
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
 					.andExpect(status().isNotFound());
 		}
+	}
+
+	@Test
+	public void respondsWithNoContentOnPutRequestWithoutUserData() throws Exception {
+		mvc.perform(
+				put("/users/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(""))
+				.andExpect(status().isNoContent());
 	}
 
 	@Test
