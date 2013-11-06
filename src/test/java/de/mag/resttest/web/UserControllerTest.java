@@ -17,6 +17,11 @@ import de.mag.resttest.AbstractWebIntegrationTest;
 
 public class UserControllerTest extends AbstractWebIntegrationTest {
 
+	/*
+	 * Testing controller behavior according to
+	 * http://www.restapitutorial.com/lessons/httpmethods.html
+	 */
+
 	@Test
 	public void deliversAllUsers() throws Exception {
 		mvc.perform(
@@ -41,6 +46,17 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 				get("/users/100"))
 				.andExpect(status().isNotFound())
 				.andReturn().getResponse();
+	}
+
+	@Test
+	public void respondsWithNotFoundOnPutRequestToCollection() throws Exception {
+		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
+			mvc.perform(
+					put("/users")
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(IOUtils.toByteArray(in)))
+					.andExpect(status().isNotFound());
+		}
 	}
 
 	@Test
