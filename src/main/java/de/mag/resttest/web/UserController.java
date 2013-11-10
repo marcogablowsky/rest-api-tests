@@ -58,6 +58,7 @@ public class UserController {
 		}
 	}
 
+	@ResponseStatus(value = HttpStatus.OK)
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable Long userId) {
 		try {
