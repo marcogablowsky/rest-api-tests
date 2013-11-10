@@ -106,4 +106,19 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 					.andExpect(content().encoding("UTF-8"));
 		}
 	}
+
+	@Test
+	public void respondsWithMethodNotAllowedOnPostRequestToSpecificUser() throws Exception {
+		/*
+		 * This is not the recommended behavior of the article but I think it's more
+		 * comprehensive than a NotFound response.
+		 */
+		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
+			mvc.perform(
+					post("/users/15")
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(IOUtils.toByteArray(in)))
+					.andExpect(status().isMethodNotAllowed());
+		}
+	}
 }
