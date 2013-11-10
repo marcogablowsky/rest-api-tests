@@ -15,7 +15,7 @@ public class CustomHandlerExceptionResolver extends DefaultHandlerExceptionResol
 	protected ModelAndView handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		response.getOutputStream().print(ex.getLocalizedMessage());
-		response.sendError(HttpServletResponse.SC_NO_CONTENT);
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		return new ModelAndView();
 	}
 

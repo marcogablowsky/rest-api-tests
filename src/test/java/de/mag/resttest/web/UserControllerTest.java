@@ -70,7 +70,7 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 					put("/users/1")
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
-					.andExpect(status().isOk());
+					.andExpect(status().isNoContent());
 		}
 	}
 
@@ -86,12 +86,12 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 	}
 
 	@Test
-	public void respondsWithNoContentOnPutRequestWithoutUserData() throws Exception {
+	public void respondsWithBadRequestOnPutRequestWithoutUserData() throws Exception {
 		mvc.perform(
 				put("/users/1")
 						.contentType(MediaType.APPLICATION_JSON)
 				)
-				.andExpect(status().isNoContent());
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test

@@ -48,7 +48,7 @@ public class UserController {
 		return userService.create(user);
 	}
 
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	public void updateUser(@PathVariable Long userId, @RequestBody User user) {
 		try {
