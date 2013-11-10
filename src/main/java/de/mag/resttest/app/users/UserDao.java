@@ -27,6 +27,14 @@ public class UserDao {
 		return this.users.get(userId);
 	}
 
+	void delete(Long userId) {
+		User user = this.users.get(userId);
+		if (user == null) {
+			throw new NoSuchUserException("No user with id " + userId);
+		}
+		this.users.remove(userId);
+	}
+
 	Long persist(User user) {
 		if (user.getId() == null) {
 			user.setId(Long.valueOf(++maxId));

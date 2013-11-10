@@ -33,4 +33,7 @@ public class UserService {
 		userDao.persist(user);
 	}
 
+	public void delete(Long userId) {
+		userDao.delete(userId);
+	}
 }
