@@ -11,7 +11,6 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
 import org.testng.annotations.Test;
 
 import de.mag.resttest.AbstractWebIntegrationTest;
@@ -88,22 +87,11 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 
 	@Test
 	public void respondsWithNoContentOnPutRequestWithoutUserData() throws Exception {
-
-		/*
-		 * This results in a status 400 - BadRequest. As it turns out we have an
-		 * internal exception of type HttpMessageNotReadableException which gets
-		 * handled by DefaultHandlerExceptionResolver.
-		 * http://docs.spring.io/spring/docs
-		 * /3.2.x/spring-framework-reference/html/mvc.html#mvc-exceptionhandlers
-		 */
-		MvcResult result =
-				mvc.perform(
-						put("/users/1")
-								.contentType(MediaType.APPLICATION_JSON)
-								.content(""))
-						// .andExpect(status().isNoContent())
-						.andReturn();
-		Exception resolvedEx = result.getResolvedException();
+		mvc.perform(
+				put("/users/1")
+						.contentType(MediaType.APPLICATION_JSON)
+				)
+				.andExpect(status().isNoContent());
 	}
 
 	@Test
