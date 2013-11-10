@@ -57,4 +57,13 @@ public class UserController {
 			throw new ResourceNotFoundException(e.getMessage());
 		}
 	}
+
+	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	public void deleteUser(@PathVariable Long userId) {
+		try {
+			userService.delete(userId);
+		} catch (NoSuchUserException e) {
+			throw new ResourceNotFoundException(e.getMessage());
+		}
+	}
 }

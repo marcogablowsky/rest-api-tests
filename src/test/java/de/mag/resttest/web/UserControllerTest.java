@@ -1,5 +1,6 @@
 package de.mag.resttest.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -96,6 +97,10 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 
 	@Test
 	public void createsUser() throws Exception {
+		/*
+		 * No location header is returned, instead the response body contains the id
+		 * of the created resource.
+		 */
 		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
 			mvc.perform(
 					post("/users")
@@ -120,5 +125,29 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 							.content(IOUtils.toByteArray(in)))
 					.andExpect(status().isMethodNotAllowed());
 		}
+	}
+
+	@Test
+	public void deletesUser() throws Exception {
+		mvc.perform(
+				delete("/users/2"))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void respondsWithNotFoundOnDeleteRequestToNonExistentUser() throws Exception {
+		mvc.perform(
+				delete("/users/1000"))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void respondsWithMethodNotAllowedOnDeleteRequestToCollection() throws Exception {
+		/*
+		 * Again this is not the recommended way but it seems more comprehensive.
+		 */
+		mvc.perform(
+				delete("/users"))
+				.andExpect(status().isMethodNotAllowed());
 	}
 }
