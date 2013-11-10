@@ -10,8 +10,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 @Configuration
 @EnableWebMvc
@@ -27,10 +30,19 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
 		MappingJacksonHttpMessageConverter jacksonConverter = new MappingJacksonHttpMessageConverter();
 		converters.add(jacksonConverter);
 		super.configureMessageConverters(converters);
 	}
 
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+		// When overriding this method we need to define the whole ExceptionResolver
+		// stack
+		exceptionResolvers.add(new CustomHandlerExceptionResolver());
+		exceptionResolvers.add(new ResponseStatusExceptionResolver());
+		// This is our custom implementation instead of
+		// DefaultHandlerExceptionResolver.
+		exceptionResolvers.add(new ExceptionHandlerExceptionResolver());
+	}
 }
