@@ -31,6 +31,23 @@ public class UserController {
 		return userService.findAll();
 	}
 
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@RequestMapping(method = RequestMethod.PUT)
+	public void updateUsers() {
+	}
+
+	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
+	public Long createUser(@RequestBody User user) {
+		return userService.create(user);
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@RequestMapping(method = RequestMethod.DELETE)
+	public void deleteUsers() {
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public User getUser(@PathVariable Long userId) {
@@ -41,13 +58,6 @@ public class UserController {
 		return user;
 	}
 
-	@ResponseStatus(value = HttpStatus.CREATED)
-	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST)
-	public Long createUser(@RequestBody User user) {
-		return userService.create(user);
-	}
-
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	public void updateUser(@PathVariable Long userId, @RequestBody User user) {
@@ -56,6 +66,12 @@ public class UserController {
 		} catch (NoSuchUserException e) {
 			throw new ResourceNotFoundException(e.getMessage());
 		}
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+	public void postOnSpecificUser() {
+
 	}
 
 	@ResponseStatus(value = HttpStatus.OK)

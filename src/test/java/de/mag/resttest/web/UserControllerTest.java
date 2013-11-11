@@ -50,17 +50,16 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 	}
 
 	/*
-	 * This is not the recommended behavior of the article but I think it's more
-	 * comprehensive than a NotFound response.
+	 * This is the recommended response
 	 */
 	@Test
-	public void respondsWithMethodNotAllowedOnPutRequestToCollection() throws Exception {
+	public void respondsWithNotFoundOnPutRequestToCollection() throws Exception {
 		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
 			mvc.perform(
 					put("/users")
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
-					.andExpect(status().isMethodNotAllowed());
+					.andExpect(status().isNotFound());
 		}
 	}
 
@@ -112,18 +111,17 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 		}
 	}
 
+	/*
+	 * This is the recommended response
+	 */
 	@Test
-	public void respondsWithMethodNotAllowedOnPostRequestToSpecificUser() throws Exception {
-		/*
-		 * This is not the recommended behavior of the article but I think it's more
-		 * comprehensive than a NotFound response.
-		 */
+	public void respondsWithNotFoundOnPostRequestToSpecificUser() throws Exception {
 		try (InputStream in = new FileInputStream("src/test/resources/createUser.json")) {
 			mvc.perform(
 					post("/users/15")
 							.contentType(MediaType.APPLICATION_JSON)
 							.content(IOUtils.toByteArray(in)))
-					.andExpect(status().isMethodNotAllowed());
+					.andExpect(status().isNotFound());
 		}
 	}
 
@@ -141,13 +139,13 @@ public class UserControllerTest extends AbstractWebIntegrationTest {
 				.andExpect(status().isNotFound());
 	}
 
+	/*
+	 * This is the recommended response
+	 */
 	@Test
-	public void respondsWithMethodNotAllowedOnDeleteRequestToCollection() throws Exception {
-		/*
-		 * Again this is not the recommended way but it seems more comprehensive.
-		 */
+	public void respondsWithNotFoundOnDeleteRequestToCollection() throws Exception {
 		mvc.perform(
 				delete("/users"))
-				.andExpect(status().isMethodNotAllowed());
+				.andExpect(status().isNotFound());
 	}
 }
