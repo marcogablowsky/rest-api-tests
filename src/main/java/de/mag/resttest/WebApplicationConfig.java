@@ -26,15 +26,6 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 
-	// @Override
-	// public void configureMessageConverters(List<HttpMessageConverter<?>>
-	// converters) {
-	// MappingJacksonHttpMessageConverter jacksonConverter = new
-	// MappingJacksonHttpMessageConverter();
-	// converters.add(jacksonConverter);
-	// super.configureMessageConverters(converters);
-	// }
-
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		// When overriding this method we need to define the whole ExceptionResolver
